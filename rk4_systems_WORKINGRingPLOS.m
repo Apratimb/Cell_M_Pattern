@@ -62,14 +62,14 @@ attachedTriangles = vertexAttachments(DT);
 for i = 1: size(xdt,1)
 % Use the connectivity list to get the vertex indices of all these
 % triangles
-    verticesOfTI         = DT.ConnectivityList(attachedTriangles{i},:);
+    verticesOfDT = DT.ConnectivityList(attachedTriangles{i},:);
 % Find all the unique vertices and remove the current vertex
-    neighboursOfInternal{i} = setdiff(unique(verticesOfTI), i);
+    neighboursVERTEXDT{i} = setdiff(unique(verticesOfDT), i);
 end
 
 Forces = zeros(size(points));
 for vertex = 1:size(DT.Points,1)
-    neighboring_vertex = neighboursOfInternal{vertex}';
+    neighboring_vertex = neighboursVERTEXDT{vertex}';
     temp = 0; 
     ri = [points(vertex,1)-X0,points(vertex,2)-Y0]; %  r of the vertex
     n = 0;

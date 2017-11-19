@@ -2,8 +2,8 @@
 % Based on the Paper: Coherent Motion of Monolayer Sheets under Confinement and Its Pathological Implications
 % S S Soumya, Animesh Gupta, Andrea Cugno, Luca Deseri, Kaushik Dayal, Dibyendu Das, Shamik Sen, Mandar M. Inamdar 
 % Published: December 21, 2015https://doi.org/10.1371/journal.pcbi.1004670
-% Author: Apratim Bajpai, PhD Candidate, Department of Mechanical
-% Engineering, NYU Tandon School of Engineering
+% Copyright 2017, Apratim Bajpai, All rights reserved 
+% PhD Candidate, Department of Mechanical Engineering, NYU Tandon School of Engineering
 
 clearvars;
 close all;
@@ -41,14 +41,14 @@ attachedTriangles = vertexAttachments(DT);
 for i = 1: size(x,1)
 % Use the connectivity list to get the vertex indices of all these
 % triangles
-    verticesOfTI         = DT.ConnectivityList(attachedTriangles{i},:);
+    verticesOfDT = DT.ConnectivityList(attachedTriangles{i},:);
 % Find all the unique vertices and remove the current vertex
-    neighboursOfInternal{i} = setdiff(unique(verticesOfTI), i);
+    neighboursVERTEXDT{i} = setdiff(unique(verticesOfDT), i);
 end
  
 % Find the mean a0 of the points.
 for vertex = 1:size(DT.Points,1)
-    neighboring_vertex = neighboursOfInternal{vertex}';
+    neighboring_vertex = neighboursVERTEXDT{vertex}';
     temp = 0; 
     ri = [points(vertex,1)-X0,points(vertex,2)-Y0]; %  r of the vertex
     nv = 0;
@@ -100,10 +100,6 @@ for i = 1:size(pointsx,1)
     plot(xicoor,yicoor,'Linewidth',5)
     axis equal
     hold on
-%     DT = delaunayTriangulation(pointsx(:,i),pointsy(:,i));
-%     triplot(DT)
-%     plot(pointsx(i,:),pointsy(i,:),'o')
-%     voronoi(pointsx(:,i),pointsy(:,i))
     plot(pointsx(i,:),pointsy(i,:),'o')
     
     F = getframe(gcf);
