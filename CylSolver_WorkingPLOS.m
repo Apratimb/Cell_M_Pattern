@@ -7,20 +7,18 @@
 
 clearvars;
 close all;
-filename = 'C1S1.xlsx';
-sheet = 1;
 
-
+% Creating n = 50 random points in a circle
 R_Pattern = 20;
-unnamed = xlsread(filename,sheet);
-points = unnamed(:,1:2);
-Y0 = (min(unnamed(:,2))+max(unnamed(:,2)))/2;
-X0 = (min(unnamed(:,1))+max(unnamed(:,1)))/2;
-points = points - [X0*ones(size(points,1),1),Y0*ones(size(points,1),1)];
-R_Pattern1 = max([max(points(:,1));max(points(:,2));abs(min(points(:,1)));abs(min(points(:,2)))]);
-points = R_Pattern/R_Pattern1*points;
 X0 = 0; % X_Coordinate of pattern center
 Y0 = 0; %   Y_Coordinate of the pattern center
+n = 50;
+t = 2*pi*rand(n,1);
+r = R_Pattern*sqrt(rand(n,1));
+x = X0 + r.*cos(t);
+y = Y0 + r.*sin(t);
+points = [x,y];
+
 RI_Pattern= 0;
 
 dij = zeros(size(points,1),size(points,1));
@@ -66,12 +64,11 @@ end
 
 [theta,r] = cart2pol(points(:,1),points(:,2));
 %% Populating the direction preference matrix
-ni = unnamed(:,3);
-% ni = pi*rand(size(points,1),1);
+ni = pi*rand(size(points,1),1);
 
 %% Solving the differential equation
 input_solver = [r.*cos(theta);r.*sin(theta);ni];
-[sol,vel] = rk4_systems_WORKINGRing(0, 100, 2000, input_solver,R_Pattern,RI_Pattern,a0);
+[sol,vel] = rk4_systems_WORKINGRingPLOS(0, 100, 2000, input_solver,R_Pattern,RI_Pattern,a0);
 vel = vel';
 yv = sol(:,2:end);
 ni = yv(:,1+2*size(yv,2)/3:size(yv,2));
